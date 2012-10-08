@@ -1,7 +1,7 @@
 package uk.ac.ox.pancik.lunarlander.rewarders;
 
 import uk.ac.ox.pancik.lunarlander.Simulation;
-import uk.ac.ox.pancik.sarsa.NeuralNetwork;
+import uk.ac.ox.pancik.sarsa.NeuralNetworkApproximator;
 
 public class DelayedRewarderLanding implements Rewarder {
 
@@ -19,7 +19,7 @@ public class DelayedRewarderLanding implements Rewarder {
 			return -1;
 		} else if (this.simulation.isVehicleLanded()) {
 			System.out.print('.');
-			return NeuralNetwork.activationFunction(300.0 / speed / this.simulation.getTime());
+			return NeuralNetworkApproximator.activationFunction(300.0 / speed / this.simulation.getTime());
 		} else if (this.simulation.vehicleCollides()) {
 			return -1;
 		} else {

@@ -42,7 +42,7 @@ public class Vehicle extends Circle {
 		final int bounds = width - Vehicle.RADIUS;
 
 		this.position = Vectors.generateRandomVector(0, 0, width, height * 0.5);
-
+		
 		this.velocity = Vectors.generateRandomVector(-5.0, -1.0, 5.0, 1.0);
 
 		this.angle = RandomSingleton.nextDouble(0, Math.PI * 2);

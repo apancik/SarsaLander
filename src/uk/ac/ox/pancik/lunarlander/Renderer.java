@@ -18,7 +18,7 @@ import uk.ac.ox.pancik.lunarlander.sensors.HorizontalVelocitySensor;
 import uk.ac.ox.pancik.lunarlander.sensors.RotationSensor;
 import uk.ac.ox.pancik.lunarlander.sensors.TimeSensor;
 import uk.ac.ox.pancik.lunarlander.sensors.VerticalVelocitySensor;
-import uk.ac.ox.pancik.sarsa.NeuralNetwork;
+import uk.ac.ox.pancik.sarsa.NeuralNetworkApproximator;
 import uk.ac.ox.pancik.sarsa.SarsaAgent;
 import uk.ac.ox.pancik.sarsa.actions.Action;
 import uk.ac.ox.pancik.sarsa.sensors.Sensor;
@@ -83,7 +83,7 @@ public class Renderer extends PApplet {
 		if (this.learningEpisodes == Renderer.EXPERIMENT_END) {
 			this.BACKUPS_ENABLED = false;
 			this.recover();
-			NeuralNetwork.setLearningRate(0);
+			NeuralNetworkApproximator.setLearningRate(0);
 			this.sarsaAgent.setUsingBoltzmann(false);
 			System.out.println("\n Final experiment started ");
 		}
@@ -120,7 +120,7 @@ public class Renderer extends PApplet {
 		// ===============
 		// DISPLAY ACTIONS
 		// ===============
-		final NeuralNetwork[] neuralNetworksArray = this.sarsaAgent.getNeuralNetworks();
+		final NeuralNetworkApproximator[] neuralNetworksArray = this.sarsaAgent.getNeuralNetworks();
 		this.strokeWeight(10);
 
 		for (int i = 0; i < neuralNetworksArray.length; i++) {
@@ -223,7 +223,7 @@ public class Renderer extends PApplet {
 		// =====
 		// LEARN
 		// =====
-		this.sarsaAgent.update(this.rewarder.calculateReward());
+		this.sarsaAgent.update(sensors, this.rewarder.calculateReward());
 
 		// ======
 		// REWARD
@@ -326,15 +326,15 @@ public class Renderer extends PApplet {
 
 		//this.sarsaAgent = new SarsaAgent(this.sensors, new int[] { 5, 5 }, this.actionsArray.length); //81/100
 		
-		this.sarsaAgent = new SarsaAgent(this.sensors, new int[] { 5, 5 }, this.actionsArray.length);
+		this.sarsaAgent = new SarsaAgent(this.sensors.size(), new int[] { 5, 5 }, this.actionsArray.length);
 
 		this.sarsaAgent.setUsingBoltzmann(false);
 		this.sarsaAgent.setTemperature(0.05);
 		this.sarsaAgent.setRandomActionsRatio(0.05);
 		this.sarsaAgent.setFutureDiscountRate(0.99);
 
-		NeuralNetwork.setTraceDecayRate(0.99);
-		NeuralNetwork.setLearningRate(0.01);
+		NeuralNetworkApproximator.setTraceDecayRate(0.99);
+		NeuralNetworkApproximator.setLearningRate(0.01);
 
 		this.prepareTrial();
 	}

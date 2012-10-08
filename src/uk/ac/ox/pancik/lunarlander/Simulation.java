@@ -11,7 +11,7 @@ import uk.ac.ox.pancik.utils.Vectors;
 
 public class Simulation {
 	private final static int MAX_OBSTACLES = 100;
-	public static final int MAX_TIME = 2000;
+	public static final int MAX_TIME = 1000;
 
 	public int getWidth() {
 		return width;
