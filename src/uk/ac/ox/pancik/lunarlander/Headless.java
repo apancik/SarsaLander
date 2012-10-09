@@ -22,23 +22,24 @@ public class Headless {
 		double futureDiscountRate = 0.9;
 		double traceDecayRate = 0.9;
 		double learningRate = 0.05;
+		
+		int width = 400;
+		int height = 500;
 
 		String filename = "result.json";
 
 		final Options options = new Options();
 
-		// TODO fix descriptions
-		options.addOption(OptionBuilder.withArgName("episodes").hasArg().withDescription("number of steps").create("i"));
-		options.addOption(OptionBuilder.withArgName("gamma").hasArg().withDescription("setFutureDiscountRate").create("g"));
-		options.addOption(OptionBuilder.withArgName("lambda").hasArg().withDescription("setTraceDecayRate of steps").create("l"));
-		options.addOption(OptionBuilder.withArgName("alpha").hasArg().withDescription("setLearningRate").create("a"));
-		options.addOption(OptionBuilder.withArgName("epsilon").hasArg().withDescription("setRandomActionsRatio").create("e"));
-		options.addOption(OptionBuilder.withArgName("filename").hasArg().withDescription("filename").create("f"));
-		options.addOption(OptionBuilder.withArgName("boltzmann").hasArg().withDescription("setUsingBoltzmann").create("b"));
-		options.addOption(OptionBuilder.withArgName("temperature").hasArg().withDescription("setTemperature").create("t"));
-		
-
-		// TODO width a height
+		options.addOption(OptionBuilder.withArgName("episodes").hasArg().withDescription("Number of learning episodes").create("i"));
+		options.addOption(OptionBuilder.withArgName("gamma").hasArg().withDescription("Future discounted rate").create("g"));
+		options.addOption(OptionBuilder.withArgName("lambda").hasArg().withDescription("Trace decay rate").create("l"));
+		options.addOption(OptionBuilder.withArgName("alpha").hasArg().withDescription("Learning rate").create("a"));
+		options.addOption(OptionBuilder.withArgName("epsilon").hasArg().withDescription("Random actions ratio").create("e"));
+		options.addOption(OptionBuilder.withArgName("filename").hasArg().withDescription("Filename to store the resulting network").create("f"));
+		options.addOption(OptionBuilder.withArgName("boltzmann").hasArg().withDescription("Boltzmann exploration").create("b"));
+		options.addOption(OptionBuilder.withArgName("temperature").hasArg().withDescription("Boltzmann exploration temperature").create("t"));
+		options.addOption(OptionBuilder.withArgName("width").hasArg().withDescription("Simulation width").create("w"));
+		options.addOption(OptionBuilder.withArgName("height").hasArg().withDescription("Simulation height").create("h"));
 
 		final CommandLineParser parser = new PosixParser();
 
@@ -46,6 +47,14 @@ public class Headless {
 		CommandLine line;
 		try {
 			line = parser.parse(options, args);
+			
+			if (line.hasOption("w")) {
+				width = Integer.parseInt(line.getOptionValue("w"));
+			}
+			
+			if (line.hasOption("h")) {
+				height = Integer.parseInt(line.getOptionValue("h"));
+			}
 			
 			if (line.hasOption("i")) {
 				System.out.println("Using " + line.getOptionValue("i") + " steps");
@@ -87,7 +96,7 @@ public class Headless {
 			System.exit(1);
 		}
 
-		final Controller controller = new Controller(500, 500, new int[] { 5, 5 }, usingBoltzmann, temperature, randomActionsRatio, futureDiscountRate, traceDecayRate, learningRate, numberOfSteps-100);
+		final Controller controller = new Controller(width, height, new int[] { 5, 5 }, usingBoltzmann, temperature, randomActionsRatio, futureDiscountRate, traceDecayRate, learningRate, numberOfSteps-100);
 
 		while(controller.getLearningEpisodes() < numberOfSteps){
 			controller.step();

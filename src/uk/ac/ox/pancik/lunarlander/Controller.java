@@ -154,7 +154,7 @@ this.experimentLength = experimentLength;
 
 		//this.sarsaAgent = new SarsaAgent(this.sensors, new int[] { 5, 5 }, this.actionsArray.length); //81/100
 		
-		this.sarsaAgent = new SarsaAgent(this.sensors.size(), int[] networkStructure, this.actionsArray.length);
+		this.sarsaAgent = new SarsaAgent(this.sensors.size(),  networkStructure, this.actionsArray.length);
 
 		this.sarsaAgent.setUsingBoltzmann(false);
 		this.sarsaAgent.setTemperature(0.05);
